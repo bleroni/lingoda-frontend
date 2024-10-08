@@ -57,6 +57,13 @@ const ChatScrolling: React.FC = () => {
     }, 500);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      setMessages([...messages, { text: input, sender: 'user' }]);
+      setInput('');
+    }
+  };
+
   // Scroll to the bottom whenever new messages are added
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -82,6 +89,7 @@ const ChatScrolling: React.FC = () => {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type a message..."
           className="message-input"
+          onKeyDown={handleKeyDown}
         />
         <SendIconButton onClick={handleSendMessage} />
       </div>
