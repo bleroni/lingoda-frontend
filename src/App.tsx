@@ -2,9 +2,9 @@
 import React from 'react';
 import { Flex } from 'rebass';
 import styled, { ThemeProvider } from 'styled-components';
-import Chat from './components/Chat';
 import Tasks from './components/Tasks';
 import ScenarioCard from './components/Scenario';
+import ChatScrolling from './components/ChatScrolling';
 
 // Define a theme for Styled Components and Rebass
 const theme = {
@@ -22,6 +22,7 @@ const Container = styled.div`
   justify-content: center;
   height: 100vh;
   background-color: #f5f5f5;
+  overflow-y: scroll;
 `;
 
 const App: React.FC = () => {
@@ -30,7 +31,7 @@ const App: React.FC = () => {
       <Container>
         <Flex flexDirection={'row'}>
           <Flex flexDirection={'column'}>
-            <Chat />
+            <ChatScrolling />
           </Flex>
 
           <Flex flexDirection={'column'} ml={'20px'}>
