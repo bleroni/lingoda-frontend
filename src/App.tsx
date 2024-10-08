@@ -29,6 +29,7 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <Container>
+        <h2 style={{ marginBottom: '20px'}}>Lingoda AI Assistant</h2>
         <Flex flexDirection={'row'}>
           <Flex flexDirection={'column'}>
             <ChatScrolling />
