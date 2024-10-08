@@ -1,5 +1,6 @@
 // src/App.tsx
 import React from 'react';
+import { Flex } from 'rebass';
 import styled, { ThemeProvider } from 'styled-components';
 import Chat from './components/Chat';
 import Tasks from './components/Tasks';
@@ -27,10 +28,17 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <h5>Lingoda AI Assistant</h5>
-        <Chat />
-        <Tasks />
-        <ScenarioCard title="Scenario" description="You walked into a coffee shop in Berlin, stood in line to order and now it's your turn. The barista greets you." />
+        <Flex flexDirection={'row'}>
+          <Flex flexDirection={'column'}>
+            <Chat />
+          </Flex>
+
+          <Flex flexDirection={'column'} ml={'20px'}>
+            <ScenarioCard title="Scenario" description="You walked into a coffee shop in Berlin, stood in line to order and now it's your turn. The barista greets you." />
+            <Tasks />
+          </Flex>
+
+        </Flex>
       </Container>
     </ThemeProvider>
   );
