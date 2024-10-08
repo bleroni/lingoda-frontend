@@ -1,10 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
-import '../styles/ChatScrolling.css'; // Optional: For styling purposes
+import { IconButton } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import '../styles/ChatScrolling.css';
 
 // Define the shape of the message data
 type Message = {
   text: string;
   sender: 'user' | 'bot';
+};
+
+interface Props {
+  onClick: () => void;
+}
+
+const SendIconButton: React.FC<Props> = ({ onClick }) => {
+  return (
+    <IconButton color="primary" aria-label="send" onClick={onClick}>
+      <SendIcon />
+    </IconButton>
+  );
 };
 
 // Chat component
@@ -69,9 +83,7 @@ const ChatScrolling: React.FC = () => {
           placeholder="Type a message..."
           className="message-input"
         />
-        <button onClick={handleSendMessage} className="send-button">
-          Send
-        </button>
+        <SendIconButton onClick={handleSendMessage} />
       </div>
     </div>
   );
