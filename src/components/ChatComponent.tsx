@@ -47,14 +47,14 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ tasks, setTasks }) => {
     // 3. Send the message to the AI endpoint
     try {
       setLoading(true);
-      await axios.post(`${process.env.REACT_APP_API_URL}/lingoda/lingoda_agent/`, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/lingoda/lingoda_agent`, {
         thread_id,
         question: input,
       });
       
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setError(`Error: ${error.response?.data || error.message}`);
+        setError(`Error: ${JSON.stringify(error)}`);
       } else {
         setError('An unexpected error occurred');
       }
@@ -66,7 +66,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ tasks, setTasks }) => {
       setLingodaMessages(response.data.messages);
       setTasks(response.data.tasks);
     } catch (err) {
-      setError("err.message");
+      setError(JSON.stringify(err));
     } finally {
       setLoading(false);
     }    
