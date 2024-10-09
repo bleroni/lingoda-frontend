@@ -16,31 +16,12 @@ const SendIconButton: React.FC<Props> = ({ onClick }) => {
   );
 };
 
-interface Message {
-  type: 'human' | 'ai';
-  content: string;
-}
-
 interface LingodaMessageData {
   content: string;
   type: 'human' | 'ai';
 }
 
 const ChatComponent: React.FC = () => {
-  // Old messages	
-  const [messages, setMessages] = useState<Message[]>([
-    { content: 'Its 18:15. Do you need any other info?', type: 'ai' },
-    { content: 'Yes, what is the capital of France?', type: 'human' },
-    { content: 'Its Paris. Anything else?', type: 'ai' },
-    { content: 'Yes, what is the capital of France?', type: 'human' },
-    { content: 'Its Paris. Anything else?', type: 'ai' },
-    { content: 'Yes, what is the capital of France?', type: 'human' },    
-    { content: 'Its Paris. Anything else?', type: 'ai' },
-    { content: 'Yes, what is the capital of France?', type: 'human' },
-    { content: 'Its Paris. Anything else?', type: 'ai' },
-    { content: 'Yes, what is the capital of France?', type: 'human' },              
-  ]);
-
   const { thread_id } = useParams<{ thread_id: string }>();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -48,7 +29,7 @@ const ChatComponent: React.FC = () => {
 
   const [input, setInput] = useState('');
 
-  const [lingodaMessages, setLingodaMessages] = useState<LingodaMessageData[]>(messages);
+  const [lingodaMessages, setLingodaMessages] = useState<LingodaMessageData[]>([]);
 
   // Step 3: Always scroll to the bottom of the component
   const chatEndRef = useRef<HTMLDivElement | null>(null);
@@ -88,45 +69,6 @@ const ChatComponent: React.FC = () => {
     }    
   };
 
-  const handleKeyDown = async (event: React.KeyboardEvent) => {
-    if (input.trim() === '') return;
-
-    if (event.key === 'Enter') {
-
-        // 1. Add the message to the list of messages
-        setLingodaMessages([...lingodaMessages, { content: input, type: 'human' }]);
-
-        // 2. Clear the input field  
-        setInput('');
-
-        // 3. Send the message to the AI endpoint
-        try {
-          setLoading(true);
-          await axios.post(`${process.env.REACT_APP_API_URL}/lingoda/lingoda_agent/`, {
-            thread_id,
-            question: input,
-          });
-          
-        } catch (error) {
-          if (axios.isAxiosError(error)) {
-            setError(`Error: ${error.response?.data || error.message}`);
-          } else {
-            setError('An unexpected error occurred');
-          }
-        }
-
-        // 4. Get updates messages from the messages endpoint
-        try {
-          const response = await axios.get(`${process.env.REACT_APP_API_URL}/lingoda/all_messages/${thread_id}`);
-          setLingodaMessages(response.data.messages);
-        } catch (err) {
-          setError("err.message");
-        } finally {
-          setLoading(false);
-        }    
-    }
-  };
-
   useEffect(() => {
     if (thread_id) {
       setLoading(true);
@@ -148,6 +90,8 @@ const ChatComponent: React.FC = () => {
       chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [lingodaMessages]);
+
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div style={styles.chatContainer}>

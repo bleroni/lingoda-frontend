@@ -7,7 +7,7 @@ const StartNewConversationButton: React.FC = () => {
   // Function to generate a random URL
   const generateRandomUrl = () => {
     const randomString = Math.random().toString(36).substring(2, 15);
-    const randomUrl = `${process.env.REACT_APP_API_URL}/chat/${randomString}`;
+    const randomUrl = `/chat/${randomString}`;
     setUrl(randomUrl);
     window.location.href = randomUrl;
   };

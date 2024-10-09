@@ -1,6 +1,5 @@
 import { Flex } from 'rebass';
 import styled, { ThemeProvider } from 'styled-components';
-import ChatScrolling from './ChatScrolling';
 import StartNewConversationButton from './StartNewConversationButton';
 import ScenarioCard from './Scenario';
 import Tasks from './Tasks';
@@ -29,11 +28,11 @@ const Main: React.FC = () => {
   return (    
     <ThemeProvider theme={theme}>
       <Container>
+
         <StartNewConversationButton /> 
         <h2 style={{ marginBottom: '20px'}}>Lingoda AI Assistant</h2>
         <Flex flexDirection={'row'}>
           <Flex flexDirection={'column'}>
-            {/* <ChatScrolling /> */}
             <ChatComponent />
           </Flex>
 
@@ -41,7 +40,8 @@ const Main: React.FC = () => {
             <ScenarioCard title="Scenario" description="You walked into a coffee shop in Berlin, stood in line to order and now it's your turn. The barista greets you." />
             <Tasks />           
           </Flex>
-        </Flex>     
+        </Flex>
+
       </Container>
     </ThemeProvider>
   );

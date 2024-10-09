@@ -1,48 +1,83 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import '../styles/Tasks.css'; // Optional CSS file for styling
 
-type Task = {
-  id: number;
+interface TaskType {
   description: string;
   completed: boolean;
+}
+
+// Define the Tasks interface
+interface TasksType {
+  [key: string]: TaskType;
+}
+
+const initialTasks: TasksType = {
+    task_1: {
+      description: "Greet the doctor",
+      completed: true
+    },
+    task_2: {
+      description: "Describe your symptoms",
+      completed: false
+    },
+    task_3: {
+      description: "Ask about medication",
+      completed: false
+    },
+    task_4: {
+      description: "Thank the doctor and say goodbye",
+      completed: false
+    }
 };
 
-const initialTasks: Task[] = [
-  { id: 1, description: 'Greet the waiter appropriately', completed: true },
-  { id: 2, description: 'Ask if they have oat milk', completed: false },
-  { id: 3, description: 'Order a coffee with oat milk', completed: false },
-  { id: 4, description: 'Order a slice of chocolate cake to go with it', completed: false },
-];
-
 const Tasks: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const { thread_id } = useParams<{ thread_id: string }>();
+  const [tasks, setTasks] = useState<TasksType>(initialTasks);
 
-  const toggleTaskCompletion = (id: number) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
-  };
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchLingodaMessages = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/lingoda/all_messages/${thread_id}`);
+        setTasks(response.data.tasks);
+      } catch (err: any) {
+        setError(err.message || 'Something went wrong');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLingodaMessages();
+  }, [thread_id]);
+
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="tasks-container">
       <h2>Your tasks</h2>
       <p>Finish all of the tasks within 10 messages</p>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id} className={task.completed ? 'completed' : ''}>
-            <label>
-              <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => toggleTaskCompletion(task.id)}
-              />
-              {task.description}
-            </label>
-          </li>
-        ))}
-      </ul>
+      {loading ? 
+          <p>Loading tasks...</p> 
+          :
+          <ul>
+            {Object.entries(tasks).map(([key, task]) => (
+              <li key={key} className={task.completed ? 'completed' : ''}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onChange={() => {}}
+                />
+                {task.description}
+              </label>
+            </li>
+            ))}
+          </ul>
+      }
+      {JSON.stringify(tasks)}          
     </div>
   );
 };
