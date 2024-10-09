@@ -1,5 +1,4 @@
 import { Flex } from 'rebass';
-import { useParams } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import ChatScrolling from './ChatScrolling';
 import StartNewConversationButton from './StartNewConversationButton';
@@ -27,12 +26,11 @@ const Container = styled.div`
 `;
 
 const Main: React.FC = () => {
-  const { thread_id } = useParams<{ thread_id: string }>();
   return (    
     <ThemeProvider theme={theme}>
       <Container>
         <StartNewConversationButton /> 
-        <h2 style={{ marginBottom: '20px'}}>Lingoda AI Assistant - {thread_id} - {process.env.REACT_APP_API_URL}</h2>
+        <h2 style={{ marginBottom: '20px'}}>Lingoda AI Assistant</h2>
         <Flex flexDirection={'row'}>
           <Flex flexDirection={'column'}>
             <ChatScrolling />
