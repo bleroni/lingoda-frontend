@@ -1,0 +1,22 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+}
+
+.badge.completed {
+  background-color: #4ca0af;
+}
+
+.badge.incomplete {
+  background-color: #ccc;
+}
+
+.badge-icon {
+  margin-right: 10px;
+}

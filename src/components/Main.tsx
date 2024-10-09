@@ -6,6 +6,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import StartNewConversationButton from './StartNewConversationButton';
 import Tasks from './Tasks';
 import { TasksType } from '../types';
+import { initialTasks } from '../common';
 
 // Define a theme for Styled Components and Rebass
 const theme = {
@@ -25,25 +26,6 @@ const Container = styled.div`
   background-color: #f5f5f5;
   overflow-y: scroll;
 `;
-
-const initialTasks = {
-  task_1: {
-    description: "Greet the doctor",
-    completed: false
-  },
-  task_2: {
-    description: "Describe your symptoms",
-    completed: false
-  },
-  task_3: {
-    description: "Ask about medication",
-    completed: false
-  },
-  task_4: {
-    description: "Thank the doctor and say goodbye",
-    completed: false
-  }
-};
 
 const Main: React.FC = () => {
   const [tasks, setTasks] = useState<TasksType>(initialTasks);
