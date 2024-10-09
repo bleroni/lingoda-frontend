@@ -4,7 +4,7 @@ import ChatScrolling from './ChatScrolling';
 import StartNewConversationButton from './StartNewConversationButton';
 import ScenarioCard from './Scenario';
 import Tasks from './Tasks';
-
+import ChatComponent from './ChatComponent';
 
 // Define a theme for Styled Components and Rebass
 const theme = {
@@ -33,14 +33,15 @@ const Main: React.FC = () => {
         <h2 style={{ marginBottom: '20px'}}>Lingoda AI Assistant</h2>
         <Flex flexDirection={'row'}>
           <Flex flexDirection={'column'}>
-            <ChatScrolling />
+            {/* <ChatScrolling /> */}
+            <ChatComponent />
           </Flex>
 
-          <Flex flexDirection={'column'} ml={'20px'}>
+          <Flex flexDirection={'column'} ml={'20px'} sx={{ width: '200px'}}>
             <ScenarioCard title="Scenario" description="You walked into a coffee shop in Berlin, stood in line to order and now it's your turn. The barista greets you." />
             <Tasks />           
           </Flex>
-        </Flex>
+        </Flex>     
       </Container>
     </ThemeProvider>
   );
