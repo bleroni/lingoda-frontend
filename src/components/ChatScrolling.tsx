@@ -5,15 +5,9 @@ import { IconButton } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import '../styles/ChatScrolling.css';
 
-// Define the shape of the message data
-type Message = {
-  content: string;
-  type: 'human' | 'ai';
-};
-
 interface LingodaMessageData {
   content: string;
-  type: string;
+  type: 'human' | 'ai';
 }
 
 interface Props {
@@ -37,32 +31,76 @@ const ChatScrolling: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [messages, setMessages] = useState<Message[]>([
-    { content: 'Its 18:15. Do you need any other info?', type: 'ai' },
-    { content: 'Yes, what is the capital of France?', type: 'human' },
-    { content: 'Its Paris. Anything else?', type: 'ai' },
-    { content: 'Yes, what is the capital of France?', type: 'human' },
-    { content: 'Its Paris. Anything else?', type: 'ai' },
-    { content: 'Yes, what is the capital of France?', type: 'human' },             
-  ]);
-
   const [input, setInput] = useState('');
   const messageEndRef = useRef<HTMLDivElement | null>(null);
 
   // Function to handle sending a new message
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (input.trim() === '') return;
 
-    // Add new user message
-    setMessages([...messages, { content: input, type: 'human' }]);
-    setInput('');
+     // 1. Clear the input field  
+     setInput('');
 
+    // 2. Send the message to the AI endpoint
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/lingoda/lingoda_agent/`, {
+        thread_id,
+        question: input,
+      });
+      
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setError(`Error: ${error.response?.data || error.message}`);
+      } else {
+        setError('An unexpected error occurred');
+      }
+    }
+
+    // 3. Get updates messages from the messages endpoint
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/lingoda/all_messages/${thread_id}`);
+      console.log(response.data);
+      setLingodaMessages(response.data.messages);
+    } catch (err) {
+      setError("err.message");
+    } finally {
+      setLoading(false);
+    }    
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
+  const handleKeyDown = async (event: React.KeyboardEvent) => {
+    if (input.trim() === '') return;
+
     if (event.key === 'Enter') {
-      setMessages([...messages, { content: input, type: 'human' }]);
-      setInput('');
+
+        // 1. Clear the input field  
+        setInput('');
+
+        // 2. Send the message to the AI endpoint
+        try {
+          await axios.post(`${process.env.REACT_APP_API_URL}/lingoda/lingoda_agent/`, {
+            thread_id,
+            question: input,
+          });
+          
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            setError(`Error: ${error.response?.data || error.message}`);
+          } else {
+            setError('An unexpected error occurred');
+          }
+        }
+
+        // 3. Get updates messages from the messages endpoint
+        try {
+          const response = await axios.get(`${process.env.REACT_APP_API_URL}/lingoda/all_messages/${thread_id}`);
+          console.log(response.data);
+          setLingodaMessages(response.data.messages);
+        } catch (err) {
+          setError("err.message");
+        } finally {
+          setLoading(false);
+        }    
     }
   };
 
@@ -84,12 +122,15 @@ const ChatScrolling: React.FC = () => {
     }
     // Scroll into view
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, thread_id]);
+  }, [thread_id]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="chat-container">
       <div className="messages-container">
-        {lingodaMessages.slice(1).map((message, index) => (
+        {lingodaMessages && lingodaMessages.slice(1).map((message, index) => (
           <div
             key={index}
             className={`message ${message.type === 'human' ? 'user-message' : 'bot-message'}`}
@@ -97,9 +138,10 @@ const ChatScrolling: React.FC = () => {
             {message.content}
           </div>
         ))}
-        <div ref={messageEndRef} />
+        
       </div>
       <div className="input-container">
+        <div ref={messageEndRef} />
         <input
           type="text"
           value={input}
