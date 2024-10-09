@@ -14,5 +14,6 @@ export interface TasksProps {
 }
 
 export interface ChatComponentProps {
+  tasks: TasksType;
   setTasks: Dispatch<SetStateAction<TasksType>>;
 }

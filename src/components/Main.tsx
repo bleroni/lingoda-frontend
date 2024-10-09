@@ -38,11 +38,11 @@ const Main: React.FC = () => {
         <h2 style={{ marginBottom: '20px'}}>Lingoda AI Assistant</h2>
         <Flex flexDirection={'row'}>
           <Flex flexDirection={'column'}>
-            <ChatComponent setTasks={setTasks} />
+            <ChatComponent tasks={tasks} setTasks={setTasks} />
           </Flex>
 
           <Flex flexDirection={'column'} ml={'20px'} sx={{ width: '200px'}}>
-            <ScenarioCard title="Scenario" description="You walked into a coffee shop in Berlin, stood in line to order and now it's your turn. The barista greets you." />
+            <ScenarioCard title="Scenario" description="You are at the doctor's. You have a heachache and a sore throat, but no cough. The doctor asks how you are. The doctor is called Dr. Pearson." />
             <Tasks 
               tasks={tasks} 
             />           

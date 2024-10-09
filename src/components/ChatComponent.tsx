@@ -6,12 +6,13 @@ import { useParams } from 'react-router-dom';
 import { ChatComponentProps } from '../types';
 
 interface Props {
+  disabled: boolean;
   onClick: () => void;
 }
 
-const SendIconButton: React.FC<Props> = ({ onClick }) => {
+const SendIconButton: React.FC<Props> = ({ disabled, onClick }) => {
   return (
-    <IconButton color="primary" aria-label="send" onClick={onClick}>
+    <IconButton color="primary" aria-label="send" onClick={onClick} disabled={disabled}>
       <SendIcon />
     </IconButton>
   );
@@ -22,15 +23,15 @@ interface LingodaMessageData {
   type: 'human' | 'ai';
 }
 
-const ChatComponent: React.FC<ChatComponentProps> = ({ setTasks }) => {
+const ChatComponent: React.FC<ChatComponentProps> = ({ tasks, setTasks }) => {
   const { thread_id } = useParams<{ thread_id: string }>();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const [input, setInput] = useState('');
-
   const [lingodaMessages, setLingodaMessages] = useState<LingodaMessageData[]>([]);
+  const allTasksCompleted = Object.values(tasks).every(task => task.completed === true);
 
   // Step 3: Always scroll to the bottom of the component
   const chatEndRef = useRef<HTMLDivElement | null>(null);
@@ -128,8 +129,9 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ setTasks }) => {
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleSendMessage();
               }}
+              disabled={ allTasksCompleted ? true: false }
             />
-            <SendIconButton onClick={handleSendMessage} />
+            <SendIconButton onClick={handleSendMessage} disabled={ allTasksCompleted ? true: false } />
         </>
       }
  
