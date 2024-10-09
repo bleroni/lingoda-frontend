@@ -3,6 +3,7 @@ import axios from 'axios';
 import SendIcon from '@mui/icons-material/Send';
 import { IconButton } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import { ChatComponentProps } from '../types';
 
 interface Props {
   onClick: () => void;
@@ -21,7 +22,7 @@ interface LingodaMessageData {
   type: 'human' | 'ai';
 }
 
-const ChatComponent: React.FC = () => {
+const ChatComponent: React.FC<ChatComponentProps> = ({ setTasks }) => {
   const { thread_id } = useParams<{ thread_id: string }>();
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -38,7 +39,7 @@ const ChatComponent: React.FC = () => {
     if (input.trim() === '') return;
      // 1. Add the message to the list of messages
      setLingodaMessages([...lingodaMessages, { content: input, type: 'human' }]);
-
+    
      // 2. Clear the input field  
      setInput('');
 
@@ -62,6 +63,7 @@ const ChatComponent: React.FC = () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/lingoda/all_messages/${thread_id}`);
       setLingodaMessages(response.data.messages);
+      setTasks(response.data.tasks);
     } catch (err) {
       setError("err.message");
     } finally {
@@ -114,7 +116,7 @@ const ChatComponent: React.FC = () => {
       <div style={styles.inputContainer}>
 
       {loading ? 
-          <p>Asking the AI Teacher...</p> 
+          <p>Asking the AI Doctor...</p> 
           :
           <>      
             <input

@@ -155,7 +155,7 @@ const ChatScrolling: React.FC = () => {
 
       <div className="input-container">
         {loading ? 
-          <p>Asking the AI Teacher...</p> 
+          <p>Asking the AI Doctor...</p> 
           :
           <> 
             <input
