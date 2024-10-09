@@ -157,7 +157,8 @@ const ChatComponent: React.FC = () => {
           style={{
             ...styles.message,
             alignSelf: message.type === 'human' ? 'flex-end' : 'flex-start',
-            backgroundColor: message.type === 'human' ? '#DCF8C6' : '#FFF',
+            backgroundColor: message.type === 'human' ? '#66b3ff' : '#FFF',
+            color: message.type === 'human' ? '#fff' : '#000',
           }}
         >
           <strong>{message.type === 'human' ? 'You' : 'AI'}:</strong> {message.content}
