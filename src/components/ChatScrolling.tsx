@@ -43,6 +43,7 @@ const ChatScrolling: React.FC = () => {
 
     // 2. Send the message to the AI endpoint
     try {
+      setLoading(true);
       await axios.post(`${process.env.REACT_APP_API_URL}/lingoda/lingoda_agent/`, {
         thread_id,
         question: input,
@@ -59,7 +60,6 @@ const ChatScrolling: React.FC = () => {
     // 3. Get updates messages from the messages endpoint
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/lingoda/all_messages/${thread_id}`);
-      console.log(response.data);
       setLingodaMessages(response.data.messages);
     } catch (err) {
       setError("err.message");
@@ -78,6 +78,7 @@ const ChatScrolling: React.FC = () => {
 
         // 2. Send the message to the AI endpoint
         try {
+          setLoading(true);
           await axios.post(`${process.env.REACT_APP_API_URL}/lingoda/lingoda_agent/`, {
             thread_id,
             question: input,
@@ -94,7 +95,6 @@ const ChatScrolling: React.FC = () => {
         // 3. Get updates messages from the messages endpoint
         try {
           const response = await axios.get(`${process.env.REACT_APP_API_URL}/lingoda/all_messages/${thread_id}`);
-          console.log(response.data);
           setLingodaMessages(response.data.messages);
         } catch (err) {
           setError("err.message");
@@ -124,7 +124,6 @@ const ChatScrolling: React.FC = () => {
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [thread_id]);
 
-  if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -142,17 +141,22 @@ const ChatScrolling: React.FC = () => {
       </div>
       <div className="input-container">
         <div ref={messageEndRef} />
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type a message..."
-          className="message-input"
-          onKeyDown={handleKeyDown}
-        />
-        <SendIconButton onClick={handleSendMessage} />
+        {loading ? 
+          <p>Loading...</p> 
+          :
+          <> 
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type a message..."
+              className="message-input"
+              onKeyDown={handleKeyDown}
+            />
+            <SendIconButton onClick={handleSendMessage} />
+          </>
+        }
       </div>
-      {/* <p>{JSON.stringify(lingodaMessages)}</p> */}
     </div>
   );
 };
