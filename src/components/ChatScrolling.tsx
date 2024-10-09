@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
+import { useParams } from 'react-router-dom';
 import '../styles/ChatScrolling.css';
 
 // Define the shape of the message data
@@ -23,6 +24,8 @@ const SendIconButton: React.FC<Props> = ({ onClick }) => {
 
 // Chat component
 const ChatScrolling: React.FC = () => {
+  const { thread_id } = useParams<{ thread_id: string }>();
+
   const [messages, setMessages] = useState<Message[]>([
     { text: 'Its 18:15. Do you need any other info?', sender: 'bot' },
     { text: 'Yes, what is the capital of France?', sender: 'user' },
@@ -48,13 +51,6 @@ const ChatScrolling: React.FC = () => {
     setMessages([...messages, { text: input, sender: 'user' }]);
     setInput('');
 
-    // Simulate bot response (this could be replaced with a real API call)
-    setTimeout(() => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { text: 'Its Paris. Anything else?', sender: 'bot' },
-      ]);
-    }, 500);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -72,6 +68,7 @@ const ChatScrolling: React.FC = () => {
   return (
     <div className="chat-container">
       <div className="messages-container">
+        <p>---{JSON.stringify(thread_id)}</p>
         {messages.map((message, index) => (
           <div
             key={index}

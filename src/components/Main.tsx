@@ -1,0 +1,51 @@
+import { Flex } from 'rebass';
+import { useParams } from 'react-router-dom';
+import styled, { ThemeProvider } from 'styled-components';
+import ChatScrolling from './ChatScrolling';
+import StartNewConversationButton from './StartNewConversationButton';
+import ScenarioCard from './Scenario';
+import Tasks from './Tasks';
+
+
+// Define a theme for Styled Components and Rebass
+const theme = {
+  colors: {
+    primary: '#07c',
+    secondary: '#30c',
+  },
+};
+
+// Create a styled container using styled-components
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+  overflow-y: scroll;
+`;
+
+const Main: React.FC = () => {
+  const { thread_id } = useParams<{ thread_id: string }>();
+  return (    
+    <ThemeProvider theme={theme}>
+      <Container>
+        <StartNewConversationButton /> 
+        <h2 style={{ marginBottom: '20px'}}>Lingoda AI Assistant - {thread_id} - {process.env.REACT_APP_API_URL}</h2>
+        <Flex flexDirection={'row'}>
+          <Flex flexDirection={'column'}>
+            <ChatScrolling />
+          </Flex>
+
+          <Flex flexDirection={'column'} ml={'20px'}>
+            <ScenarioCard title="Scenario" description="You walked into a coffee shop in Berlin, stood in line to order and now it's your turn. The barista greets you." />
+            <Tasks />           
+          </Flex>
+        </Flex>
+      </Container>
+    </ThemeProvider>
+  );
+};
+
+export default Main;
