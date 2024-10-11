@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import SendIcon from '@mui/icons-material/Send';
+import CompletionBadge from './CompletionBadge';
 import { IconButton } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { ChatComponentProps } from '../types';
@@ -115,24 +116,27 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ tasks, setTasks }) => {
       
       {/* Input Field */}
       <div style={styles.inputContainer}>
-
-      {loading ? 
-          <p>Asking the AI Doctor...</p> 
-          :
-          <>      
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type a message..."
-              style={styles.inputField}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleSendMessage();
-              }}
-              disabled={ allTasksCompleted ? true: false }
-            />
-            <SendIconButton onClick={handleSendMessage} disabled={ allTasksCompleted ? true: false } />
-        </>
+      {allTasksCompleted ?
+        <CompletionBadge text="Chapter Completed" completed={true} />
+        : (
+          loading ? 
+            <p>Asking the AI Doctor...</p> 
+            :
+            <>      
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type a message..."
+                style={styles.inputField}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleSendMessage();
+                }}
+                disabled={ allTasksCompleted ? true: false }
+              />
+              <SendIconButton onClick={handleSendMessage} disabled={ allTasksCompleted ? true: false } />
+          </>
+        )  
       }
  
       </div>

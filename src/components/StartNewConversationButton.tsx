@@ -16,7 +16,7 @@ const StartNewConversationButton: React.FC = () => {
     <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
       {/* Button that generates the URL */}
       <Button variant="contained" color="primary" onClick={generateRandomUrl}>
-        Start New Conversation
+        Start a new conversation
       </Button>
       <p>{url}</p>
     </Box>

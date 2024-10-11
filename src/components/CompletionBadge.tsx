@@ -1,7 +1,6 @@
-import React from 'react';
-import '../styles/CompletionBadge.css'; // Optional CSS file for custom styles
+import React, { useEffect, useState } from 'react';
+import '../styles/CompletionBadge.css';
 
-// Define the interface for the component props
 interface CompletionBadgeProps {
   text?: string;
   completed: boolean;
@@ -9,13 +8,19 @@ interface CompletionBadgeProps {
 }
 
 const CompletionBadge: React.FC<CompletionBadgeProps> = ({
-  text = "Completed", // Default text
+  text = "Completed",
   completed,
-  color = "#b4caed" // Default color
+  color = "#b4caed"
 }) => {
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    setAnimate(true);
+  }, []);
+
   return (
     <div
-      className={`badge ${completed ? 'completed' : 'incomplete'}`}
+      className={`badge ${completed ? 'completed' : 'incomplete'} ${animate ? 'animate' : ''}`}
       style={{ backgroundColor: completed ? color : '#ccc' }}
     >
       {completed ? (
@@ -30,6 +35,5 @@ const CompletionBadge: React.FC<CompletionBadgeProps> = ({
     </div>
   );
 };
-
 
 export default CompletionBadge;

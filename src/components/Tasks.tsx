@@ -1,10 +1,8 @@
 import React from 'react';
 import { TasksProps } from '../types';
-import CompletionBadge from './CompletionBadge';
-import '../styles/Tasks.css'; // Optional CSS file for styling
+import '../styles/Tasks.css';
 
 const Tasks: React.FC<TasksProps> = ({ tasks }) => {
-  const allTasksCompleted = Object.values(tasks).every(task => task.completed === true);
 
   return (
     <div className="tasks-container">
@@ -24,9 +22,6 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
             </li>
             ))}
           </ul>
-          {allTasksCompleted && 
-            <CompletionBadge text="Chapter Completed" completed={true} />
-          }  
     </div>
   );
 };
