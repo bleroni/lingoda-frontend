@@ -35,7 +35,7 @@ const Main: React.FC = () => {
       <Container>
 
         <StartNewConversationButton /> 
-        <h2 style={{ marginBottom: '20px'}}>Lingoda AI Assistant</h2>
+        <h2 style={{ marginBottom: '20px'}}>Lingoda AI Assistant/Doctor</h2>
         <Flex flexDirection={'row'}>
           <Flex flexDirection={'column'}>
             <ChatComponent tasks={tasks} setTasks={setTasks} />
