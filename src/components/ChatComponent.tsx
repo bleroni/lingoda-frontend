@@ -120,7 +120,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ tasks, setTasks }) => {
         <CompletionBadge text="Phase Completed" completed={true} />
         : (
           loading ? 
-            <p>Asking the AI Doctor...</p> 
+            <p>Asking the AI Trucking assistant...</p> 
             :
             <>      
               <input
