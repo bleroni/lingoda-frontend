@@ -1,19 +1,16 @@
 import { Dispatch, SetStateAction } from 'react';
 
-export interface TaskType {
-  description: string;
-  completed: boolean;
-}
-
-export interface TasksType {
-  [key: string]: TaskType;
-}
+export type TaskType = {
+  task_description: string;
+  task_completed: boolean;
+  value: string;
+};
 
 export interface TasksProps {
-  tasks: TasksType;
+  tasks: TaskType[];
 }
 
 export interface ChatComponentProps {
-  tasks: TasksType;
-  setTasks: Dispatch<SetStateAction<TasksType>>;
+  tasks: TaskType[];
+  setTasks: Dispatch<SetStateAction<TaskType[]>>;
 }

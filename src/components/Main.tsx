@@ -1,11 +1,11 @@
 import { useState }  from 'react'
 import { Flex } from 'rebass';
 import ChatComponent from './ChatComponent';
-import ScenarioCard from './Scenario';
+// import ScenarioCard from './Scenario';
 import styled, { ThemeProvider } from 'styled-components';
 import StartNewConversationButton from './StartNewConversationButton';
 import Tasks from './Tasks';
-import { TasksType } from '../types';
+import { TaskType } from '../types';
 import { initialTasks } from '../common';
 
 // Define a theme for Styled Components and Rebass
@@ -28,7 +28,7 @@ const Container = styled.div`
 `;
 
 const Main: React.FC = () => {
-  const [tasks, setTasks] = useState<TasksType>(initialTasks);
+  const [tasks, setTasks] = useState<TaskType[]>(initialTasks);
 
   return (    
     <ThemeProvider theme={theme}>

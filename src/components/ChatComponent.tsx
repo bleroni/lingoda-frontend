@@ -32,7 +32,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ tasks, setTasks }) => {
 
   const [input, setInput] = useState('');
   const [lingodaMessages, setLingodaMessages] = useState<LingodaMessageData[]>([]);
-  const allTasksCompleted = Object.values(tasks).every(task => task.completed === true);
+  const allTasksCompleted = Object.values(tasks).every(task => task.task_completed === true);
 
   // Step 3: Always scroll to the bottom of the component
   const chatEndRef = useRef<HTMLDivElement | null>(null);
@@ -48,7 +48,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ tasks, setTasks }) => {
     // 3. Send the message to the AI endpoint
     try {
       setLoading(true);
-      await axios.post(`${process.env.REACT_APP_API_URL}/lingoda/lingoda_agent`, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/trucking/frontend_agent`, {
         thread_id,
         question: input,
       });
@@ -63,7 +63,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ tasks, setTasks }) => {
 
     // 4. Get updates messages from the messages endpoint
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/lingoda/all_messages/${thread_id}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/trucking/all_messages/${thread_id}`);
       setLingodaMessages(response.data.messages);
       setTasks(response.data.tasks);
     } catch (err) {
@@ -77,7 +77,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ tasks, setTasks }) => {
     if (thread_id) {
       setLoading(true);
       axios
-        .get(`${process.env.REACT_APP_API_URL}/lingoda/all_messages/${thread_id}`)
+        .get(`${process.env.REACT_APP_API_URL}/trucking/all_messages/${thread_id}`)
         .then((response) => {
           setLingodaMessages(response.data.messages);
           setLoading(false);
@@ -117,7 +117,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ tasks, setTasks }) => {
       {/* Input Field */}
       <div style={styles.inputContainer}>
       {allTasksCompleted ?
-        <CompletionBadge text="Chapter Completed" completed={true} />
+        <CompletionBadge text="Phase Completed" completed={true} />
         : (
           loading ? 
             <p>Asking the AI Doctor...</p> 
