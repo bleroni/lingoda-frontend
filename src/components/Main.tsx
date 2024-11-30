@@ -35,14 +35,14 @@ const Main: React.FC = () => {
       <Container>
 
         <StartNewConversationButton /> 
-        <h2 style={{ marginBottom: '20px'}}>Lingoda AI Assistant/Doctor</h2>
+        <h2 style={{ marginBottom: '20px'}}>AI Trucker</h2>
         <Flex flexDirection={'row'}>
           <Flex flexDirection={'column'}>
             <ChatComponent tasks={tasks} setTasks={setTasks} />
           </Flex>
 
           <Flex flexDirection={'column'} ml={'20px'} sx={{ width: '200px'}}>
-            <ScenarioCard title="Scenario" description="You are at the doctor's. You have a heachache and a sore throat, but no cough. The doctor asks how you are. The doctor is called Dr. Pearson." />
+            {/* <ScenarioCard title="Scenario" description="You are at the doctor's. You have a heachache and a sore throat, but no cough. The doctor asks how you are. The doctor is called Dr. Pearson." /> */}
             <Tasks 
               tasks={tasks} 
             />           
